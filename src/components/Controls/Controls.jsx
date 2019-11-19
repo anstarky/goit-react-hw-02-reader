@@ -3,20 +3,31 @@ import T from 'prop-types';
 
 import styles from './Controls.module.css';
 
-const Controls = ({ onPrev, onNext, activePrev, activeNext }) => (
+const Controls = ({ onChange, currentIdx, lastIdx }) => (
     <section className={styles.controls}>
-        <button type="button" onClick={onPrev} disabled={activePrev} className={styles.button} >Назад</button>
-        <button type="button" onClick={onNext} disabled={activeNext} className={styles.button}>Вперед</button>
+        <button
+            type="button"
+            onClick={onChange}
+            disabled={currentIdx === 0}
+            className={styles.button}
+        >
+            Назад
+        </button>
+        <button
+            type="button"
+            onClick={onChange}
+            disabled={currentIdx === lastIdx}
+            className={styles.button}
+        >
+            Вперед
+            </button>
     </section>
 );
 
 Controls.propTypes = {
-
-    onPrev: T.func.isRequired,
-    onNext: T.func.isRequired,
-    activePrev: T.string.isRequired,
-    activeNext: T.string.isRequired,
-
+    onChange: T.func.isRequired,
+    currentIdx: T.number.isRequired,
+    lastIdx: T.number.isRequired,
 };
 
 export default Controls;

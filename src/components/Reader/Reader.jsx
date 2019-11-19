@@ -14,57 +14,23 @@ class Reader extends Component {
     };
 
     state = {
-        idx: 0,
-        statusPrev: 'disable',
-        statusNext: ''
+        pageIdx: 0
     };
 
-    handlePrev = () => {
-        if (this.state.idx > 1) {
-            this.setState(state => (
-                { idx: state.idx - 1 }
-            ));
-            this.setState(state => (
-                { statusNext: '' }
-            ))
-        } else {
-            this.setState(state => (
-                { idx: state.idx - 1 }
-            ));
-            this.setState(state => (
-                { statusPrev: 'disable' }
-            ))
-        }
-    }
-
-
-    handleNext = () => {
-        if (this.state.idx < this.props.items.length - 2) {
-            this.setState(state => (
-                { idx: state.idx + 1 }
-            ));
-            this.setState(state => (
-                { statusPrev: '' }
-            ))
-        } else {
-            this.setState(state => (
-                { idx: state.idx + 1 }
-            ));
-            this.setState(state => (
-                { statusNext: 'disable' }
-            ))
-
-        }
-    }
+    handleChange = ({ target: { innerText } }) => {
+        this.setState(state => (
+            { pageIdx: innerText === 'Вперед' ? state.pageIdx + 1 : state.pageIdx - 1 }
+        ));
+    };
 
     render() {
         const { items } = this.props;
-        const { idx } = this.state;
+        const { pageIdx } = this.state;
         return (
             < div className={styles.reader} >
-                <Controls onPrev={this.handlePrev} onNext={this.handleNext} activePrev={this.state.statusPrev} activeNext={this.state.statusNext} />
-                <Counter index={idx + 1} countAll={items.length} />
-                <Publication article={items[idx]} />
+                <Controls onChange={this.handleChange} currentIdx={pageIdx} lastIdx={items.length - 1} />
+                <Counter index={pageIdx + 1} countAll={items.length} />
+                <Publication article={items[pageIdx]} />
             </div >
         )
     }
